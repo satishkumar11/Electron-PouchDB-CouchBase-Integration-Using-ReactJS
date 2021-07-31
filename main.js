@@ -3,7 +3,7 @@ const ipcMain = require('electron').ipcMain;
 
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'));
-const localSkuDB = new PouchDB('src/data/fileSystem');
+const localSkuDB = new PouchDB('src/data');
 const { v4: uuidv4 } = require('uuid');
 
 // Electron IPC example
