@@ -6,28 +6,27 @@ PouchDB.plugin(require('pouchdb-find'));
 const localSkuDB = new PouchDB('src/data');
 const { v4: uuidv4 } = require('uuid');
 
-// Electron IPC example
-ipcMain.on('user-data', function (event, arg) {
-    console.log(arg + " " + new Date());
 
-    var doc = {
+async function addToPouchDB(arg) {
+    let doc = {
         _id: uuidv4(),
         data: {
-            name: "Satish",
-            exp: "4rys",
+            name: arg,
+            gender: "Male",
         }
     }
 
-    console.log(doc);
-    localSkuDB.put(doc)
-        .then(function (response) {
-            console.log(response);
-        }).catch(function (err) {
-            console.log(err);
-        })
+    let result = await localSkuDB.put(doc);
+    return result;
+}
 
+// Electron IPC example
+ipcMain.handle('user-data', async function (event, arg) {
+    const result = await addToPouchDB(arg);
+    console.log("<result main> : " + JSON.stringify(result));
+    return result;
     //do child process or other data manipulation and name it manData
-    event.sender.send('manipulatedData', 'COOL info!');
+    // event.sender.send('manipulatedData', 'COOL info!');
 });
 
 
@@ -62,7 +61,6 @@ const path = require('path')
 // const url = require('url')
 
 const isDev = process.env.ELECTRON_IS_DEV;
-console.log("isDev : " + isDev);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -72,11 +70,11 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow(
         {
-            width: 800,
-            height: 600,
+            width: 500,
+            height: 500,
             webPreferences: {
                 nodeIntegration: true,
-                enableRemoteModule: true,
+                // enableRemoteModule: true,
                 contextIsolation: false,
             }
         })

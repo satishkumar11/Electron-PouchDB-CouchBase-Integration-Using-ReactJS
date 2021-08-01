@@ -17,16 +17,21 @@ class App extends Component {
     // Electron IPC example
     ipcRenderer.removeAllListeners('manipulatedData');
   }
-  sendIpcData = () => {
-    // Electron IPC example
-    ipcRenderer.send('user-data', 'important INFO!');
+  sendIpcData = async () => {
+    const result = await ipcRenderer.invoke('user-data', 'Satish')
+    console.log("<result app> : " + JSON.stringify(result));
   }
   render() {
     return (
       <div className="App">
         <header className="App-header">
         </header>
-        <button onClick={this.sendIpcData}>Send IPC Data</button>
+        {/* <button onClick={this.sendIpcData}>Send IPC Data</button> */}
+        <button
+          onClick={e => {
+            this.sendIpcData();
+          }}
+        >Send IPC Data</button>
       </div>
     );
   }
