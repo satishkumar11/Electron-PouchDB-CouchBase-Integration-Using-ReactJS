@@ -70,8 +70,10 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow(
         {
-            width: 500,
-            height: 500,
+            width: 600,
+            height: 600,
+            x: 800,
+            y: 100,
             webPreferences: {
                 nodeIntegration: true,
                 // enableRemoteModule: true,
@@ -79,6 +81,7 @@ function createWindow() {
             }
         })
 
+    mainWindow.webContents.openDevTools();
     // and load the index.html of the app.
     mainWindow.loadURL(
         isDev

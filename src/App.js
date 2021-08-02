@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+  Button,
+  Box,
+} from '@material-ui/core';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -26,12 +30,14 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
         </header>
-        {/* <button onClick={this.sendIpcData}>Send IPC Data</button> */}
-        <button
-          onClick={e => {
-            this.sendIpcData();
-          }}
-        >Send IPC Data</button>
+        <Box textAlign='center'>
+          <Button variant='contained'
+            onClick={e => {
+              this.sendIpcData();
+            }}
+          >Send IPC Data
+          </Button>
+        </Box>
       </div>
     );
   }
