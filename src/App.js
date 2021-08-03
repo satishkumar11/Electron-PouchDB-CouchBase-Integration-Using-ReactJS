@@ -35,6 +35,9 @@ class App extends Component {
             onClick={e => {
               this.sendIpcData();
             }}
+            style={{
+              marginTop: '16em',
+            }}
           >Send IPC Data
           </Button>
         </Box>
