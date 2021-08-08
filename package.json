@@ -2,7 +2,7 @@
   "name": "pouch-couchbase-integration",
   "version": "0.1.0",
   "private": true,
-  "main": "main.js",
+  "main": "src/electron/main.js",
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@testing-library/jest-dom": "^5.11.4",
