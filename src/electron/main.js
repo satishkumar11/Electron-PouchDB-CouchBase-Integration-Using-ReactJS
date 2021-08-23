@@ -3,7 +3,7 @@ const ipcMain = require('electron').ipcMain;
 
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'));
-const localSkuDB = new PouchDB('src/data');
+const localPouchDB = new PouchDB('src/data');
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -11,24 +11,29 @@ async function addToPouchDB(arg) {
     let doc = {
         _id: uuidv4(),
         data: {
-            name: arg,
-            gender: "Male",
+            name: arg
         }
     }
 
-    let result = await localSkuDB.put(doc);
+    let result = await localPouchDB.put(doc);
     return result;
 }
 
-ipcMain.handle('request-channel', async function (event, arg) {
-    const result = await addToPouchDB(arg);
-    console.log("<result main> : " + JSON.stringify(result));
-    return result;
-    // event.sender.send('response-channel', 'completed!');
+ipcMain.handle('add-doc-channel', async function (event, arg) {
+    return await addToPouchDB(arg);
 });
 
+async function getAllDocs() {
+    return await localPouchDB.allDocs({
+        include_docs: true,
+    });
+}
 
-const remoteDB = new PouchDB("http://localhost:4985/sku-db", {
+ipcMain.handle('get-all-docs-channel', async function (event, arg) {
+    return await getAllDocs();
+});
+
+const remoteDB = new PouchDB("http://localhost:4985/sample-db", {
     auth: {
         username: 'test_user',
         password: 'test_user@123'
@@ -36,7 +41,7 @@ const remoteDB = new PouchDB("http://localhost:4985/sku-db", {
 })
 
 
-localSkuDB.sync(remoteDB, { live: true, retry: true })
+localPouchDB.sync(remoteDB, { live: true, retry: true })
     .on('change', function (change) {
     })
     .on('paused', function (info) {

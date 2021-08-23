@@ -1,0 +1,1 @@
+~/Documents/Awantunai/Application/SyncGateway/couchbase-sync-gateway/bin/sync_gateway ~/Desktop/ProjectYT/Electron-PouchDB-CouchBase/Electron-PouchDB-CouchBase-Integration-Using-ReactJS/src/config/sync-gateway-config.json

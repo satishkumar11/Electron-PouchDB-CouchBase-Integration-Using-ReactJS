@@ -17,8 +17,12 @@ class App extends Component {
     ipcRenderer.removeAllListeners('response-channel');
   }
   sendIpcData = async () => {
-    const result = await ipcRenderer.invoke('request-channel', 'Satish')
-    console.log("<result app> : " + JSON.stringify(result));
+    const result = await ipcRenderer.invoke('add-doc-channel', 'SatishNew123')
+    console.log("<add result app> : " + JSON.stringify(result));
+  }
+  getIpcData = async () => {
+    const result = await ipcRenderer.invoke('get-all-docs-channel')
+    console.log("<get result app> : " + JSON.stringify(result));
   }
   render() {
     return (
@@ -33,7 +37,19 @@ class App extends Component {
             style={{
               marginTop: '16em',
             }}
-          >Send IPC Data
+          >Add Doc
+          </Button>
+        </Box>
+
+        <Box textAlign='center'>
+          <Button variant='contained'
+            onClick={e => {
+              this.getIpcData();
+            }}
+            style={{
+              marginTop: '5em',
+            }}
+          >Get All Docs
           </Button>
         </Box>
       </div>
